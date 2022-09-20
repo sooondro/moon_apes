@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "926522226099-0ej04i9bfup40f17kf9nphc3v0mk0c29.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hr.ferit.sandroblavicki.sandroapp",
+            "certificate_hash": "79ca391602eebe9d4f5212862ef67e70079cf647"
+          }
+        },
+        {
+          "client_id": "926522226099-am846h129nek3civi0jc0msbru9501st.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hr.ferit.sandroblavicki.sandroapp",
+            "certificate_hash": "53d57af39d000c8e5c9e15e7ed7e69af2a24402f"
+          }
+        },
+        {
           "client_id": "926522226099-9a7nlflucr8mpfk57tusj5d7d93clgsm.apps.googleusercontent.com",
           "client_type": 3
         }
