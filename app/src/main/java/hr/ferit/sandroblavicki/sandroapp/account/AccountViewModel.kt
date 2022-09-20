@@ -23,7 +23,7 @@ class AccountViewModel (
     }
 
     fun fetchPosts()  {
-        _posts.value = repository.getPosts()
+        //_posts.value = repository.getPosts()
     }
 
 }

@@ -1,9 +1,16 @@
 package hr.ferit.sandroblavicki.sandroapp.repositories
 
+import android.util.Log
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import hr.ferit.sandroblavicki.sandroapp.home.PostComment
 import hr.ferit.sandroblavicki.sandroapp.home.PostData
 
 class PostRepositoryImpl : PostRepository() {
+
+    private var firestoreInstance: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     private val posts = listOf<PostData>(
         PostData(
@@ -72,11 +79,207 @@ class PostRepositoryImpl : PostRepository() {
             username = "Dacalino",
             comment = "Nice boogggggggbs"
         ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "drugi",
+            comment = "Nice dasdasdasdasd"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "trec",
+            comment = "Nice boobasdsadsas"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boogggggggbs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "drugi",
+            comment = "Nice dasdasdasdasd"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "trec",
+            comment = "Nice boobasdsadsas"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boogggggggbs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "drugi",
+            comment = "Nice dasdasdasdasd"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "trec",
+            comment = "Nice boobasdsadsas"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boogggggggbs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "drugi",
+            comment = "Nice dasdasdasdasd"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "trec",
+            comment = "Nice boobasdsadsas"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boogggggggbs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "drugi",
+            comment = "Nice dasdasdasdasd"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "trec",
+            comment = "Nice boobasdsadsas"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boogggggggbs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "drugi",
+            comment = "Nice dasdasdasdasd"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "trec",
+            comment = "Nice boobasdsadsas"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boobs"
+        ),
+        PostComment(
+            postId = "1",
+            userId = "1",
+            username = "Dacalino",
+            comment = "Nice boogggggggbs"
+        ),
 
         )
 
-    override fun getPosts(): List<PostData> {
-        return posts
+    override fun getPosts(onSuccessListener: (List<PostData>) -> Unit,onFailureListener: OnFailureListener) {
+        firestoreInstance.collection("posts")
+            .get()
+            .addOnFailureListener(onFailureListener)
+            .addOnSuccessListener { result ->
+                val posts = mutableListOf<PostData>()
+
+                for (document in result) {
+                    Log.d("postsFetch", "${document.id} => ${document.data}")
+                    val postData = PostData.fromFirebaseObject(document.data)
+                    posts.add(postData)
+                }
+                onSuccessListener(posts)
+            }
+            .addOnFailureListener { exception ->
+                Log.w("postsFetch", "Error getting documents.", exception)
+
+            }
     }
 
     override fun updatePost(postId: String) {

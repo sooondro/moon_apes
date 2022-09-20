@@ -32,6 +32,7 @@ class HomePageRecyclerViewAdapter (
 
     fun setPosts(newPosts : List<PostData>) {
         items = newPosts
+        notifyDataSetChanged()
     }
 
 

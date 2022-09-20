@@ -13,15 +13,14 @@ import hr.ferit.sandroblavicki.sandroapp.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-//    private lateinit var auth: FirebaseAuth
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setupNav()
-/*        FirebaseApp.initializeApp(this)
-        auth = Firebase.auth*/
         setContentView(binding.root)
     }
 
