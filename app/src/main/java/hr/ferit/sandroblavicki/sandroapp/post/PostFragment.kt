@@ -6,18 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
-import hr.ferit.sandroblavicki.sandroapp.databinding.PostFramentBinding
+import hr.ferit.sandroblavicki.sandroapp.databinding.PostFragmentBinding
 import hr.ferit.sandroblavicki.sandroapp.home.PostData
 import hr.ferit.sandroblavicki.sandroapp.repositories.PostRepositoryImpl
 
 
 class PostFragment : Fragment() {
 
-    private lateinit var binding: PostFramentBinding
+    private lateinit var binding: PostFragmentBinding
     private lateinit var viewModel: PostViewModel
     private lateinit var postCommentsRecyclerAdapter: PostCommentsRecyclerAdapter
 
@@ -27,7 +29,7 @@ class PostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel = PostViewModel(PostRepositoryImpl())
-        binding = PostFramentBinding.inflate(LayoutInflater.from(context),container,false)
+        binding = PostFragmentBinding.inflate(LayoutInflater.from(context),container,false)
         return binding.root
     }
 
@@ -44,10 +46,11 @@ class PostFragment : Fragment() {
         }
 
         postCommentsRecyclerAdapter = PostCommentsRecyclerAdapter(requireContext(), listOf())
-        binding.commentsRecyclerView.apply {
+        binding.recyclerviewPostComments.apply {
             adapter = postCommentsRecyclerAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+
         viewModel.apply {
             comments.observe(viewLifecycleOwner) { comments ->
                 postCommentsRecyclerAdapter.setComments(comments)
@@ -55,12 +58,43 @@ class PostFragment : Fragment() {
             fetchCommentsForPost(post.postId)
 
         }
+
+        viewModel.navigationDelegate.observe(viewLifecycleOwner) { navDirections ->
+            findNavController().navigate(navDirections)
+        }
+
         binding.apply {
-            username.text = post.username ?: "username is null"
-            description.text = post.description
-            Glide.with(requireContext()).load(post.imageUrl).into(image)
+            textviewPostUsername.text = post.username ?: "username is null"
+            textviewPostDescription.text = post.description
+            Glide.with(requireContext()).load(post.imageUrl).into(textviewPostImage)
+
+            textviewPostUsername.setOnClickListener {
+                viewModel.navigateTo(PostFragmentDirections.navigateToAccountFragment(post.userId))
+            }
+
+            buttonPostAddComment.setOnClickListener {
+                buttonPostAddComment.visibility = View.GONE
+                linearlayoutPostComment.visibility = View.VISIBLE
+            }
+
+            buttonPostSubmitComment.setOnClickListener {
+                val comment = edittextPostCreateComment.text.toString().trim()
+                if (comment.isEmpty()) {
+                    Toast.makeText(requireContext(), "You must write a comment first!", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            buttonPostCancelComment.setOnClickListener {
+                buttonPostAddComment.visibility = View.VISIBLE
+                linearlayoutPostComment.visibility = View.GONE
+            }
         }
     }
+/*
+    private fun validateUserInput(comment: String) {
+        if (comment.isEmpty())
+
+    }*/
 
     private fun getPostFromArgs(): PostData? {
         var post: PostData? = null
@@ -74,11 +108,11 @@ class PostFragment : Fragment() {
 
     private fun showErrorView() {
         binding.apply {
-            username.visibility = View.GONE
-            image.visibility = View.GONE
-            commentsRecyclerView.visibility = View.GONE
-            description.visibility = View.GONE
-            errorText.visibility = View.VISIBLE
+            textviewPostUsername.visibility = View.GONE
+            textviewPostImage.visibility = View.GONE
+            recyclerviewPostComments.visibility = View.GONE
+            textviewPostDescription.visibility = View.GONE
+            textviewPostError.visibility = View.VISIBLE
         }
     }
 

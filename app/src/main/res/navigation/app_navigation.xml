@@ -2,29 +2,128 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/homeFragment"
-    android:id="@+id/app_navigation">
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="hr.ferit.sandroblavicki.sandroapp.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/login_fragment">
+        <action
+            android:id="@+id/navigateToRegisterFragment"
+            app:destination="@+id/registerFragment" />
+        <action
+            android:id="@+id/navigateToHomeFragment"
+            app:destination="@+id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="hr.ferit.sandroblavicki.sandroapp.register.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/register_fragment">
+        <action
+            android:id="@+id/navigateToLoginFragment"
+            app:destination="@+id/loginFragment" />
+        <action
+            android:id="@+id/navigateToHomeFragment"
+            app:destination="@+id/homeFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="hr.ferit.sandroblavicki.sandroapp.home.HomeFragment"
-        android:label="Fragment home"
-        tools:layout="@layout/home_fragment" >
+        android:label="FragmentHome"
+        tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/navigateToPostFragment"
             app:destination="@id/postFragment" />
+        <action
+            android:id="@+id/navigateToAccountFragment"
+            app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/navigateToHomeFragment"
+            app:destination="@+id/homeFragment" />
+        <action
+            android:id="@+id/navigateToCreateFragment"
+            app:destination="@+id/createFragment"/>
     </fragment>
 
     <fragment
         android:id="@+id/postFragment"
         android:name="hr.ferit.sandroblavicki.sandroapp.post.PostFragment"
-        android:label="Post fragment"
-        tools:layout="@layout/post_frament" >
-
+        android:label="PostFragment"
+        tools:layout="@layout/post_fragment">
         <argument
             android:name="post"
-            app:argType="string"
-            android:defaultValue="default string"/>
+            android:defaultValue="default string"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/navigateToAccountFragment"
+            app:destination="@id/accountFragment" />
+        <action
+            android:id="@+id/navigateToHomeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/navigateToCreateFragment"
+            app:destination="@+id/createFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="hr.ferit.sandroblavicki.sandroapp.account.AccountFragment">
+        <argument
+            android:name="userId"
+            android:defaultValue="default string"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/navigateToPostFragment"
+            app:destination="@id/postFragment" />
+        <action
+            android:id="@+id/navigateToHomeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/navigateToAccountFragment"
+            app:destination="@+id/accountFragment" />
+        <action
+            android:id="@+id/navigateToCreateFragment"
+            app:destination="@+id/createFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/createFragment"
+        android:name="hr.ferit.sandroblavicki.sandroapp.create.CreateFragment">
+        <action
+            android:id="@+id/navigateToAccountFragment"
+            app:destination="@+id/accountFragment" />
+        <action
+            android:id="@+id/navigateToHomeFragment"
+            app:destination="@+id/homeFragment" />
+        <action
+            android:id="@+id/navigateToCreateFragment"
+            app:destination="@+id/createFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navbarFragment"
+        android:name="hr.ferit.sandroblavicki.sandroapp.navbar.NavbarFragment"
+        android:label="FragmentNavbar"
+        tools:layout="@layout/navbar_fragment">
+
+        <action
+            android:id="@+id/navigateToHomeFragment"
+            app:destination="@id/homeFragment" />
+
+        <action
+            android:id="@+id/navigateToAccountFragment"
+            app:destination="@id/accountFragment" />
+
+        <action
+            android:id="@+id/navigateToCreateFragment"
+            app:destination="@+id/createFragment" />
     </fragment>
 
 </navigation>

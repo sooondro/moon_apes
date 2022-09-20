@@ -7,6 +7,19 @@
         <entry key="..\:/Users/davor/AndroidStudioProjects/SandroApp/app/src/main/res/layout/home_fragment.xml" value="0.23229166666666667" />
         <entry key="..\:/Users/davor/AndroidStudioProjects/SandroApp/app/src/main/res/layout/post.xml" value="0.2375" />
         <entry key="..\:/Users/davor/AndroidStudioProjects/SandroApp/app/src/main/res/layout/post_frament.xml" value="0.25769927536231885" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/account_fragment.xml" value="0.1" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/account_post.xml" value="0.30416666666666664" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/create_fragment.xml" value="0.264" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/home_fragment.xml" value="0.1796875" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/home_post.xml" value="0.264" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/login_fragment.xml" value="0.1" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/navbar_fragment.xml" value="0.1" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/post.xml" value="0.1796875" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/post_comment.xml" value="0.1" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/post_fragment.xml" value="0.2796875" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/post_frament.xml" value="0.1796875" />
+        <entry key="..\:/src/android/SandroApp/app/src/main/res/layout/register_fragment.xml" value="0.1" />
       </map>
     </option>
   </component>

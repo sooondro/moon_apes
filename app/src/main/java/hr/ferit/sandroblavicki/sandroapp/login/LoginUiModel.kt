@@ -8,5 +8,4 @@ class LoginUiModel(
 
     fun copyWith(username: String?, password: String?): LoginUiModel =
         LoginUiModel(username = username ?: this.username, password = password ?: this.password)
-
 }

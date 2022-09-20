@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textview_account_username"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/cardview_dark_background"
+        android:gravity="center_vertical" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_account"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/textview_account_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="A problem occurred while loading the user profile"
+        android:textSize="30dp" />
+
+</LinearLayout>

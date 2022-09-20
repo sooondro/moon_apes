@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "926522226099",
+    "project_id": "moon-apes",
+    "storage_bucket": "moon-apes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926522226099:android:5583947ddedabc52c1c7c6",
+        "android_client_info": {
+          "package_name": "hr.ferit.sandroblavicki.sandroapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926522226099-9a7nlflucr8mpfk57tusj5d7d93clgsm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbmOiPUMDJWyg6LoWyh9WqGEWUOlusxKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926522226099-9a7nlflucr8mpfk57tusj5d7d93clgsm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

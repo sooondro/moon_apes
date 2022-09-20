@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
-import hr.ferit.sandroblavicki.sandroapp.databinding.PostBinding
+import hr.ferit.sandroblavicki.sandroapp.databinding.HomePostBinding
 
 class HomePageRecyclerViewAdapter (
     private val context: Context,
@@ -18,7 +18,7 @@ class HomePageRecyclerViewAdapter (
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val binding: PostBinding = PostBinding.inflate(LayoutInflater.from(context),parent,false)
+        val binding: HomePostBinding = HomePostBinding.inflate(LayoutInflater.from(context),parent,false)
         return PostViewHolder(binding)
     }
 
@@ -35,17 +35,22 @@ class HomePageRecyclerViewAdapter (
     }
 
 
-    inner class PostViewHolder(private val binding: PostBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PostViewHolder(private val binding: HomePostBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(postData: PostData) {
             binding.apply {
-                username.text = postData.username
-                description.text = postData.description
-                Glide.with(context).load(postData.imageUrl).into(image)
-                postLinerLayout.setOnClickListener { _ ->
-                    val postJsonString: String = Gson().toJson(postData)
-                    Log.v("jsonStuff", postJsonString)
+                textviewHomePostUsername.text = postData.username
+                textviewHomePostDescription.text = postData.description
+                Glide.with(context).load(postData.imageUrl).into(imageviewHomePostImage)
+
+                val postJsonString: String = Gson().toJson(postData)
+
+                imageviewHomePostImage.setOnClickListener {
                     viewModel.navigateTo(HomeFragmentDirections.navigateToPostFragment(postJsonString))
+                }
+
+                textviewHomePostUsername.setOnClickListener {
+                    viewModel.navigateTo(HomeFragmentDirections.navigateToAccountFragment(postData.userId))
                 }
             }
         }

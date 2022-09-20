@@ -6,5 +6,5 @@ import hr.ferit.sandroblavicki.sandroapp.home.PostData
 abstract  class PostRepository {
    abstract fun getPosts() : List<PostData>
    abstract fun updatePost(postId: String) : Unit
-   abstract fun getCommentsForPost(postId: String) : List<PostComment>
+   abstract fun getCommentsForPost(postId: String) : MutableList<PostComment>
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import hr.ferit.sandroblavicki.sandroapp.databinding.CommentBinding
+import hr.ferit.sandroblavicki.sandroapp.databinding.PostCommentBinding
 import hr.ferit.sandroblavicki.sandroapp.home.PostComment
 
 class PostCommentsRecyclerAdapter(
@@ -13,7 +13,7 @@ class PostCommentsRecyclerAdapter(
 ) : RecyclerView.Adapter<PostCommentsRecyclerAdapter.CommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
-        val binding = CommentBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding = PostCommentBinding.inflate(LayoutInflater.from(context), parent, false)
         return CommentViewHolder(binding)
     }
 
@@ -24,13 +24,13 @@ class PostCommentsRecyclerAdapter(
     override fun getItemCount(): Int = postComments.size
 
     inner class CommentViewHolder(
-        private val binding: CommentBinding,
+        private val binding: PostCommentBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(postComment: PostComment) {
             binding.apply {
-                username.text = postComment.username
-                comment.text = postComment.comment
+                textviewPostCommentUsername.text = postComment.username
+                textviewPostCommentComment.text = postComment.comment
             }
         }
     }

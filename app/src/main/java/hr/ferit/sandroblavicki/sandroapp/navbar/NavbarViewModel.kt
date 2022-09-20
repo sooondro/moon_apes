@@ -1,23 +1,16 @@
-package hr.ferit.sandroblavicki.sandroapp.login
+package hr.ferit.sandroblavicki.sandroapp.navbar
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 
-class LoginViewModel: ViewModel() {
+class NavbarViewModel () : ViewModel() {
 
     private val _navigationDelegate = MutableLiveData<NavDirections>()
     val navigationDelegate : LiveData<NavDirections> = _navigationDelegate
 
-    private val _screenState = MutableLiveData<LoginScreenState>()
-    val screenState : LiveData<LoginScreenState> = _screenState
-
     fun navigateTo(directions: NavDirections) {
         _navigationDelegate.value = directions
-    }
-
-    fun setScreenState(screenState: LoginScreenState) {
-        _screenState.value = screenState
     }
 }

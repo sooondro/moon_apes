@@ -11,21 +11,24 @@ class PostRepositoryImpl : PostRepository() {
             postId = "1",
             username = "Dacalino",
             imageUrl = "https://static.remove.bg/remove-bg-web/c4b29bf4b97131238fda6316e24c9b3606c18000/assets/start-1abfb4fe2980eabfbbaaa4365a0692539f7cd2725f324f904565a9a744f8e214.jpg",
-            description = "Dasidsajdisaj"
+            description = "Dasidsajdisaj",
+            email = "test@test.com"
         ),
         PostData(
             userId = "2",
             postId = "1",
             username = "Dacalino 2",
             imageUrl = "https://static.remove.bg/remove-bg-web/c4b29bf4b97131238fda6316e24c9b3606c18000/assets/start-1abfb4fe2980eabfbbaaa4365a0692539f7cd2725f324f904565a9a744f8e214.jpg",
-            description = "Dasidsajdisaj 2"
+            description = "Dasidsajdisaj 2",
+            email = "test@test.com"
         ),
         PostData(
             userId = "3",
             postId = "1",
             username = "Dacalino 3",
             imageUrl = "https://static.remove.bg/remove-bg-web/c4b29bf4b97131238fda6316e24c9b3606c18000/assets/start-1abfb4fe2980eabfbbaaa4365a0692539f7cd2725f324f904565a9a744f8e214.jpg",
-            description = "Dasidsajdisaj 3"
+            description = "Dasidsajdisaj 3",
+            email = "test@test.com"
         ),
         PostData(
             userId = "4",
@@ -33,32 +36,38 @@ class PostRepositoryImpl : PostRepository() {
 
             username = "Dacalin4 o",
             imageUrl = "https://static.remove.bg/remove-bg-web/c4b29bf4b97131238fda6316e24c9b3606c18000/assets/start-1abfb4fe2980eabfbbaaa4365a0692539f7cd2725f324f904565a9a744f8e214.jpg",
-            description = "Dasidsajdisaj 4"
+            description = "Dasidsajdisaj 4",
+            email = "test@test.com"
         ),
     )
 
-    private val comments = listOf<PostComment>(
+    private val comments = mutableListOf<PostComment>(
         PostComment(
+            postId = "1",
             userId = "1",
             username = "Dacalino",
             comment = "Nice boobs"
         ),
         PostComment(
+            postId = "1",
             userId = "1",
             username = "drugi",
             comment = "Nice dasdasdasdasd"
         ),
         PostComment(
+            postId = "1",
             userId = "1",
             username = "trec",
             comment = "Nice boobasdsadsas"
         ),
         PostComment(
+            postId = "1",
             userId = "1",
             username = "Dacalino",
             comment = "Nice boobs"
         ),
         PostComment(
+            postId = "1",
             userId = "1",
             username = "Dacalino",
             comment = "Nice boogggggggbs"
@@ -74,7 +83,7 @@ class PostRepositoryImpl : PostRepository() {
         TODO("Not yet implemented")
     }
 
-    override fun getCommentsForPost(postId: String) : List<PostComment> = comments
+    override fun getCommentsForPost(postId: String) : MutableList<PostComment> = comments
 
 
 }

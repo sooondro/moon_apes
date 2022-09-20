@@ -29,6 +29,7 @@ class HomeFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         adapter = HomePageRecyclerViewAdapter(requireContext(), listOf(),viewModel)
         viewModel.fetchPosts()
 
@@ -39,11 +40,11 @@ class HomeFragment : Fragment(){
         viewModel.posts.observe(viewLifecycleOwner) { posts ->
             adapter.setPosts(posts)
         }
+
         binding.apply {
             homeRecyclerView.adapter = adapter
             homeRecyclerView.layoutManager = LinearLayoutManager(context)
         }
-
     }
 
 
