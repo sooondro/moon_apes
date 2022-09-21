@@ -1,13 +1,17 @@
 package hr.ferit.sandroblavicki.sandroapp.create
 
 import android.os.Bundle
+import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import hr.ferit.sandroblavicki.sandroapp.databinding.CreateFragmentBinding
+import hr.ferit.sandroblavicki.sandroapp.repositories.PostRepositoryImpl
 
 class CreateFragment : Fragment() {
 
@@ -20,79 +24,83 @@ class CreateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = CreateFragmentBinding.inflate(LayoutInflater.from(context), container, false)
-        viewModel = CreateViewModel()
-        viewModel.setScreenState(CreateLoading(CreateUiModel("", "")))
+        viewModel = CreateViewModel(PostRepositoryImpl())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.navigationDelegate.observe(viewLifecycleOwner) { navDirections ->
-            findNavController().navigate(navDirections)
-        }
+        viewModel.apply {
+            navigationDelegate.observe(viewLifecycleOwner) { navDirections ->
+                findNavController().navigate(navDirections)
+            }
 
-        viewModel.screenState.observe(viewLifecycleOwner) { screenState ->
-            when (screenState) {
-                is CreateLoading -> displayLoadingUi(screenState)
-                is CreateValidation -> displayValidationUi(screenState)
-                is CreateError -> displayErrorUi(screenState)
+            screenState.observe(viewLifecycleOwner) { screenState ->
+                when (screenState) {
+                    is CreateLoadingState -> displayLoadingUi(screenState)
+                    is CreateUserInputState -> displayUserInputUi(screenState)
+                    is CreateErrorState -> displayErrorUi(screenState)
+                }
             }
         }
+
 
         binding.apply {
             buttonCreateSubmit.setOnClickListener {
-                val imageUrl = edittextCreateImageUrl.text.toString().trim()
-                val description = edittextCreateDescription.text.toString().trim()
 
-                val errors = validateUserInput(imageUrl, description)
-
-                if (errors.isNotEmpty()) {
-                    viewModel.setScreenState(
-                        CreateError(
-                            viewModel.screenState.value?.createData?.copyWith(
-                                imageUrl,
-                                description
-                            )!!, errors
-                        )
-                    )
+                buttonCreateSubmit.setOnClickListener {
+                    Toast.makeText(requireContext(), "CLICKED", Toast.LENGTH_SHORT)
+                    Log.v("submitButton", "oncreate")
+                    viewModel.onSubmitClicked()
                 }
 
-                //submitPost()
+                edittextCreateDescription.addTextChangedListener { editable ->
+                    viewModel.onDescriptionChanged(editable.toString())
+                }
+
+                edittextCreateImageUrl.addTextChangedListener { editable ->
+                    viewModel.onImageUrlChanged(editable.toString())
+                }
             }
         }
     }
 
-    private fun displayErrorUi(screenState: CreateError) {
+    private fun displayErrorUi(screenState: CreateErrorState) {
+        enableCreateForm()
+        Toast.makeText(requireContext(), screenState.errorText, Toast.LENGTH_LONG).show()
         binding.apply {
-            edittextCreateImageUrl.setText(screenState.createData.imageUrl)
             edittextCreateDescription.setText(screenState.createData.description)
+            edittextCreateImageUrl.setText(screenState.createData.imageUrl)
+            progressbarCreate.visibility = View.GONE
         }
-
-        val errorsText = screenState.errors.joinToString("\n")
-
-        Toast.makeText(requireContext(), errorsText, Toast.LENGTH_LONG).show()
     }
 
-    private fun displayValidationUi(screenState: CreateValidation) {
-
-    }
-
-    private fun displayLoadingUi(screenState: CreateLoading) {
+    private fun displayUserInputUi(screenState: CreateUserInputState) {
 
     }
 
-    private fun validateUserInput(imageUrl: String, description: String): MutableList<String> {
-        var errors: MutableList<String> = mutableListOf()
+    private fun displayLoadingUi(screenState: CreateLoadingState) {
+        disableCreateForm()
 
-        if (imageUrl.isEmpty()) {
-            errors.add("Image URL has to be filled")
+        binding.apply {
+            progressbarCreate.visibility = View.VISIBLE
         }
+    }
 
-        if (description.isEmpty()) {
-            errors.add("Description has to be filled")
+    private fun disableCreateForm() {
+        binding.apply {
+            edittextCreateDescription.inputType = InputType.TYPE_NULL
+            edittextCreateImageUrl.inputType = InputType.TYPE_NULL
+            buttonCreateSubmit.isEnabled = false
         }
+    }
 
-        return errors
+    private fun enableCreateForm() {
+        binding.apply {
+            edittextCreateDescription.inputType = InputType.TYPE_TEXT_VARIATION_NORMAL
+            edittextCreateImageUrl.inputType = InputType.TYPE_TEXT_VARIATION_URI
+            buttonCreateSubmit.isEnabled = true
+        }
     }
 }

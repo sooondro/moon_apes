@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import hr.ferit.sandroblavicki.sandroapp.databinding.SplashBinding
+import hr.ferit.sandroblavicki.sandroapp.databinding.SplashFragmentBinding
 
 
 class SplashFragment () : Fragment () {
 
-    private lateinit var binding: SplashBinding
+    private lateinit var binding: SplashFragmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,13 +26,14 @@ class SplashFragment () : Fragment () {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = SplashBinding.inflate(inflater,container,false)
+        binding = SplashFragmentBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.v("splashStuff","onViewCreated")
+
         val currentUser = FirebaseAuth.getInstance().currentUser
         val navDirections : NavDirections = if(currentUser == null){
             SplashFragmentDirections.navigateToLoginFragment()

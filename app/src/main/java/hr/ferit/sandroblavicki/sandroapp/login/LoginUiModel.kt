@@ -1,11 +1,10 @@
 package hr.ferit.sandroblavicki.sandroapp.login
 
 class LoginUiModel(
-    val username: String,
+    val email: String,
     val password: String,
-    //val errorMessage: String?,
 ) {
 
-    fun copyWith(username: String?, password: String?): LoginUiModel =
-        LoginUiModel(username = username ?: this.username, password = password ?: this.password)
+    fun copyWith(email: String?, password: String?): LoginUiModel =
+        LoginUiModel(email = email ?: this.email, password = password ?: this.password)
 }

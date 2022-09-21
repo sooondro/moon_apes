@@ -1,14 +1,13 @@
 package hr.ferit.sandroblavicki.sandroapp.account
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import hr.ferit.sandroblavicki.sandroapp.databinding.AccountPostBinding
-import hr.ferit.sandroblavicki.sandroapp.home.PostData
+import hr.ferit.sandroblavicki.sandroapp.models.PostData
 
 class AccountRecyclerViewAdapter(
     private val context: Context,
@@ -32,6 +31,7 @@ class AccountRecyclerViewAdapter(
 
     fun setPosts(newPosts: List<PostData>) {
         items = newPosts
+        notifyDataSetChanged()
     }
 
     inner class AccountPostViewHolder(
@@ -40,15 +40,11 @@ class AccountRecyclerViewAdapter(
 
         fun bind(postData: PostData) {
             binding.apply {
+
                 Glide.with(context).load(postData.imageUrl).into(imageviewAccountPost)
+
                 accountPostLinearLayout.setOnClickListener { _ ->
-                    val postJsonString: String = Gson().toJson(postData)
-                    Log.v("jsonStuff2", postJsonString)
-                    viewModel.navigateTo(
-                        AccountFragmentDirections.navigateToPostFragment(
-                            postJsonString
-                        )
-                    )
+                    viewModel.onPostClicked(postData)
                 }
             }
         }

@@ -1,58 +1,59 @@
 package hr.ferit.sandroblavicki.sandroapp.login
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import com.google.firebase.auth.FirebaseAuth
-import hr.ferit.sandroblavicki.sandroapp.home.HomeFragmentDirections
 
-class LoginViewModel: ViewModel() {
+class LoginViewModel : ViewModel() {
 
     private val _navigationDelegate = MutableLiveData<NavDirections>()
-    val navigationDelegate : LiveData<NavDirections> = _navigationDelegate
+    val navigationDelegate: LiveData<NavDirections> = _navigationDelegate
 
-    private val _screenState = MutableLiveData<LoginScreenState>(LoginUserInputState(LoginUiModel("","")))
-    val screenState : LiveData<LoginScreenState> = _screenState
+    private val _screenState =
+        MutableLiveData<LoginScreenState>(LoginUserInputState(LoginUiModel("", "")))
+    val screenState: LiveData<LoginScreenState> = _screenState
 
     fun navigateTo(directions: NavDirections) {
         _navigationDelegate.value = directions
     }
 
-    fun onEmailChnaged(newEmail: String) {
-        val loginData = _screenState.value!!.loginData.copyWith(newEmail,null);
+    fun onEmailChanged(newEmail: String) {
+        val loginData = _screenState.value!!.loginData.copyWith(newEmail, null);
         _screenState.value = LoginUserInputState(loginData)
     }
 
     fun onPasswordChanged(newPassword: String) {
-        val loginData = _screenState.value!!.loginData.copyWith(null,newPassword);
+        val loginData = _screenState.value!!.loginData.copyWith(null, newPassword);
         _screenState.value = LoginUserInputState(loginData)
     }
 
-    fun onSubmitClicked(){
+    fun onSubmitClicked() {
         val loginUiModel = _screenState.value!!.loginData
-        _screenState.value = LoginLoading(loginUiModel)
+        _screenState.value = LoginLoadingState(loginUiModel)
         validateUserInputAndLogin()
     }
 
     private fun validateUserInputAndLogin() {
         val loginData = _screenState.value!!.loginData
-        val emailErrors = validateEmail(loginData.username)
+        val emailErrors = validateEmail(loginData.email)
         val passwordErrors = validatePassword(loginData.password)
 
-        if( emailErrors.isNotEmpty() || passwordErrors.isNotEmpty()){
-            _screenState.value = LoginError(loginData,emailErrors + passwordErrors)
+        if (emailErrors.isNotEmpty() || passwordErrors.isNotEmpty()) {
+            val errorText = (emailErrors + passwordErrors).joinToString("\n")
+            _screenState.value = LoginErrorState(loginData, errorText)
             return
         }
-                val auth =  FirebaseAuth.getInstance()
-        auth.signInWithEmailAndPassword(loginData.username,loginData.password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                _navigationDelegate.value = LoginFragmentDirections.navigateToHomeFragment()
-            } else {
-                _screenState.value = LoginError(loginData, listOf("Invalid credentials"))
+        val auth = FirebaseAuth.getInstance()
+        auth.signInWithEmailAndPassword(loginData.email, loginData.password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    _navigationDelegate.value = LoginFragmentDirections.navigateToHomeFragment()
+                } else {
+                    _screenState.value = LoginErrorState(loginData, "Invalid credentials")
+                }
             }
-        }
     }
 
     private fun validateEmail(email: String): MutableList<String> {
@@ -80,6 +81,5 @@ class LoginViewModel: ViewModel() {
 
         return errors
     }
-
 
 }

@@ -1,8 +1,8 @@
-package hr.ferit.sandroblavicki.sandroapp.home
+package hr.ferit.sandroblavicki.sandroapp.models
 
 data class PostData(
-    val userId: String,
     val postId: String,
+    val userId: String,
     val email: String,
     val username: String,
     val imageUrl: String,
@@ -10,9 +10,9 @@ data class PostData(
 ) {
 
     companion object {
-        fun fromFirebaseObject(firebaseObject: Map<String, Any>): PostData = PostData(
+        fun fromFirebaseObject(firebaseObjectId: String, firebaseObject: Map<String, Any>): PostData = PostData(
+            firebaseObjectId,
             firebaseObject["userId"].toString(),
-            firebaseObject["postId"].toString(),
             firebaseObject["email"].toString(),
             firebaseObject["username"].toString(),
             firebaseObject["imageUrl"].toString(),

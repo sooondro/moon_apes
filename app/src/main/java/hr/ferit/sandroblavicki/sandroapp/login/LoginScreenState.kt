@@ -5,8 +5,9 @@ sealed class LoginScreenState(
 )
 
 
-class LoginError(loginUiModel: LoginUiModel, val errors: List<String>) : LoginScreenState(loginUiModel)
-class LoginLoading(loginUiModel: LoginUiModel) : LoginScreenState(loginUiModel)
-class LoginUserInputState(loginUiModel: LoginUiModel) : LoginScreenState(loginUiModel) {
+class LoginErrorState(loginUiModel: LoginUiModel, val errorText: String) :
+    LoginScreenState(loginUiModel)
 
-}
+class LoginLoadingState(loginUiModel: LoginUiModel) : LoginScreenState(loginUiModel)
+class LoginUserInputState(loginUiModel: LoginUiModel) : LoginScreenState(loginUiModel)
+

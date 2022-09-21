@@ -1,17 +1,13 @@
 package hr.ferit.sandroblavicki.sandroapp.account
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import hr.ferit.sandroblavicki.sandroapp.databinding.AccountFragmentBinding
-import hr.ferit.sandroblavicki.sandroapp.home.PostData
 import hr.ferit.sandroblavicki.sandroapp.repositories.PostRepositoryImpl
 
 class AccountFragment : Fragment() {
@@ -33,47 +29,60 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val user: UserData? = getUserFromArgs();
-        Log.v("jsonStuff", user?.toString() ?: "null")
-
-/*        if(post == null){
-            showErrorView()
-            return
-        }*/
+        val userJsonString: String? = arguments?.getString("user")
+        val user = viewModel.getCurrentUser(userJsonString)
 
         adapter = AccountRecyclerViewAdapter(requireContext(), listOf(), viewModel)
-        viewModel.fetchPosts()
 
-        viewModel.navigationDelegate.observe(viewLifecycleOwner) { navDirections ->
-            findNavController().navigate(navDirections)
-        }
+        viewModel.apply {
+            fetchUserPosts(user)
 
-        viewModel.posts.observe(viewLifecycleOwner) { posts ->
-            adapter.setPosts(posts)
+            screenState.observe(viewLifecycleOwner) { screenState ->
+                when (screenState) {
+                    is AccountErrorState -> displayErrorUi(screenState)
+                    is AccountLoadingState -> displayLoadingUi(screenState)
+                    is AccountUserInputState -> displayUserInputUi(screenState)
+                }
+            }
+
+            navigationDelegate.observe(viewLifecycleOwner) { navDirections ->
+                findNavController().navigate(navDirections)
+            }
+
+            posts.observe(viewLifecycleOwner) { posts ->
+                adapter.setPosts(posts)
+            }
+
         }
 
         binding.apply {
             recyclerviewAccount.adapter = adapter
-            textviewAccountUsername.text = "USERNAME"
+            textviewAccountUsername.text = user.username
             recyclerviewAccount.layoutManager = GridLayoutManager(context, 3)
         }
     }
 
-    private fun getUserFromArgs(): UserData? {
-        var user: UserData? = null
-        val postJsonString: String? = arguments?.getString("post")
-        Log.v("jsonStuff", postJsonString ?: "null")
-        if(postJsonString != null){
-            user = Gson().fromJson(postJsonString,UserData::class.java)
+    private fun displayErrorUi(screenState: AccountErrorState) {
+        binding.apply {
+            textviewAccountError.visibility = View.VISIBLE
+            recyclerviewAccount.visibility = View.GONE
+            progressbarAccount.visibility = View.GONE
         }
-        return user
     }
 
-    private fun showErrorView() {
+    private fun displayLoadingUi(screenState: AccountLoadingState) {
         binding.apply {
+            progressbarAccount.visibility = View.VISIBLE
             recyclerviewAccount.visibility = View.GONE
-            textviewAccountUsername.visibility = View.GONE
-            textviewAccountError.visibility = View.VISIBLE
+            textviewAccountError.visibility = View.GONE
+        }
+    }
+
+    private fun displayUserInputUi(screenState: AccountUserInputState) {
+        binding.apply {
+            recyclerviewAccount.visibility = View.VISIBLE
+            progressbarAccount.visibility = View.GONE
+            textviewAccountError.visibility = View.GONE
         }
     }
 }

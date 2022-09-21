@@ -36,11 +36,9 @@ class LoginFragment() : Fragment() {
             }
 
             screenState.observe(viewLifecycleOwner) { screenState ->
-                Log.v("loginStuff","screen state changed $screenState")
-
                 when (screenState) {
-                    is LoginError -> displayErrorUi(screenState)
-                    is LoginLoading -> displayLoadingUi(screenState)
+                    is LoginErrorState -> displayErrorUi(screenState)
+                    is LoginLoadingState -> displayLoadingUi(screenState)
                     is LoginUserInputState -> displayUserInputUi(screenState)
                 }
             }
@@ -50,44 +48,33 @@ class LoginFragment() : Fragment() {
             buttonLoginRegister.setOnClickListener {
                 viewModel.navigateTo(LoginFragmentDirections.navigateToRegisterFragment())
             }
-            edittextLoginEmail.addTextChangedListener { editable ->
-                val email = editable.toString();
-                viewModel.onEmailChnaged(email)
-            }
-
-            edittextLoginPassword.addTextChangedListener { editable ->
-                val email = editable.toString();
-                viewModel.onPasswordChanged(email)
-            }
 
             buttonLoginSubmit.setOnClickListener {
                 viewModel.onSubmitClicked();
             }
+
+            edittextLoginEmail.addTextChangedListener { editable ->
+                viewModel.onEmailChanged(editable.toString())
+            }
+
+            edittextLoginPassword.addTextChangedListener { editable ->
+                viewModel.onPasswordChanged(editable.toString())
+            }
         }
     }
 
-    private fun displayLoadingUi(loginLoading: LoginLoading) {
-       // bindText(loginLoading)
+    private fun displayLoadingUi(screenState: LoginLoadingState) {
         disableLoginForm();
         binding.progressbarLogin.visibility = View.VISIBLE
     }
 
-    private fun displayErrorUi(loginError: LoginError) {
-        //bindText(loginError)
-        val errorsText = loginError.errors.joinToString("\n") // u viewmodel
-        Toast.makeText(requireContext(), errorsText, Toast.LENGTH_LONG).show()
+    private fun displayErrorUi(screenState: LoginErrorState) {
+        enableLoginForm()
+        Toast.makeText(requireContext(), screenState.errorText, Toast.LENGTH_LONG).show()
+        binding.edittextLoginPassword.setText("")
     }
 
-    private fun displayUserInputUi(loginValidation: LoginUserInputState) {
-     // bindText(loginValidation)
-    }
-
-    private fun bindText(loginScreenState: LoginScreenState) {
-        Log.v("loginStuff","bindText $loginScreenState")
-        binding.apply {
-            edittextLoginEmail.setText(loginScreenState.loginData.username)
-            edittextLoginPassword.setText(loginScreenState.loginData.password)
-        }
+    private fun displayUserInputUi(screenState: LoginUserInputState) {
     }
 
     private fun disableLoginForm(){
@@ -96,6 +83,16 @@ class LoginFragment() : Fragment() {
             edittextLoginPassword.inputType = InputType.TYPE_NULL
             buttonLoginRegister.isEnabled = false
             buttonLoginSubmit.isEnabled = false
+        }
+    }
+
+    private fun enableLoginForm() {
+        binding.apply {
+            edittextLoginEmail.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            edittextLoginPassword.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+            buttonLoginRegister.isEnabled = true
+            buttonLoginSubmit.isEnabled = true
+            progressbarLogin.visibility = View.GONE
         }
     }
 

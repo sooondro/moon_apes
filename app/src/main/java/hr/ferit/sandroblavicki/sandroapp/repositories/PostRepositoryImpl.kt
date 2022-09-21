@@ -1,268 +1,22 @@
 package hr.ferit.sandroblavicki.sandroapp.repositories
 
 import android.util.Log
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import hr.ferit.sandroblavicki.sandroapp.home.PostComment
-import hr.ferit.sandroblavicki.sandroapp.home.PostData
+import hr.ferit.sandroblavicki.sandroapp.create.CreateUiModel
+import hr.ferit.sandroblavicki.sandroapp.models.PostComment
+import hr.ferit.sandroblavicki.sandroapp.models.PostData
+import hr.ferit.sandroblavicki.sandroapp.models.NewPostData
+import java.lang.Exception
 
 class PostRepositoryImpl : PostRepository() {
 
     private var firestoreInstance: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    private val posts = listOf<PostData>(
-        PostData(
-            userId = "1",
-            postId = "1",
-            username = "Dacalino",
-            imageUrl = "https://static.remove.bg/remove-bg-web/c4b29bf4b97131238fda6316e24c9b3606c18000/assets/start-1abfb4fe2980eabfbbaaa4365a0692539f7cd2725f324f904565a9a744f8e214.jpg",
-            description = "Dasidsajdisaj",
-            email = "test@test.com"
-        ),
-        PostData(
-            userId = "2",
-            postId = "1",
-            username = "Dacalino 2",
-            imageUrl = "https://static.remove.bg/remove-bg-web/c4b29bf4b97131238fda6316e24c9b3606c18000/assets/start-1abfb4fe2980eabfbbaaa4365a0692539f7cd2725f324f904565a9a744f8e214.jpg",
-            description = "Dasidsajdisaj 2",
-            email = "test@test.com"
-        ),
-        PostData(
-            userId = "3",
-            postId = "1",
-            username = "Dacalino 3",
-            imageUrl = "https://static.remove.bg/remove-bg-web/c4b29bf4b97131238fda6316e24c9b3606c18000/assets/start-1abfb4fe2980eabfbbaaa4365a0692539f7cd2725f324f904565a9a744f8e214.jpg",
-            description = "Dasidsajdisaj 3",
-            email = "test@test.com"
-        ),
-        PostData(
-            userId = "4",
-            postId = "1",
-
-            username = "Dacalin4 o",
-            imageUrl = "https://static.remove.bg/remove-bg-web/c4b29bf4b97131238fda6316e24c9b3606c18000/assets/start-1abfb4fe2980eabfbbaaa4365a0692539f7cd2725f324f904565a9a744f8e214.jpg",
-            description = "Dasidsajdisaj 4",
-            email = "test@test.com"
-        ),
-    )
-
-    private val comments = mutableListOf<PostComment>(
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "drugi",
-            comment = "Nice dasdasdasdasd"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "trec",
-            comment = "Nice boobasdsadsas"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boogggggggbs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "drugi",
-            comment = "Nice dasdasdasdasd"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "trec",
-            comment = "Nice boobasdsadsas"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boogggggggbs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "drugi",
-            comment = "Nice dasdasdasdasd"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "trec",
-            comment = "Nice boobasdsadsas"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boogggggggbs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "drugi",
-            comment = "Nice dasdasdasdasd"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "trec",
-            comment = "Nice boobasdsadsas"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boogggggggbs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "drugi",
-            comment = "Nice dasdasdasdasd"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "trec",
-            comment = "Nice boobasdsadsas"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boogggggggbs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "drugi",
-            comment = "Nice dasdasdasdasd"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "trec",
-            comment = "Nice boobasdsadsas"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boogggggggbs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "drugi",
-            comment = "Nice dasdasdasdasd"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "trec",
-            comment = "Nice boobasdsadsas"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boobs"
-        ),
-        PostComment(
-            postId = "1",
-            userId = "1",
-            username = "Dacalino",
-            comment = "Nice boogggggggbs"
-        ),
-
-        )
-
-    override fun getPosts(onSuccessListener: (List<PostData>) -> Unit,onFailureListener: OnFailureListener) {
+    override fun getPosts(
+        onSuccessListener: (List<PostData>) -> Unit,
+        onFailureListener: (Exception) -> Unit
+    ) {
         firestoreInstance.collection("posts")
             .get()
             .addOnFailureListener(onFailureListener)
@@ -271,7 +25,7 @@ class PostRepositoryImpl : PostRepository() {
 
                 for (document in result) {
                     Log.d("postsFetch", "${document.id} => ${document.data}")
-                    val postData = PostData.fromFirebaseObject(document.data)
+                    val postData = PostData.fromFirebaseObject(document.id, document.data)
                     posts.add(postData)
                 }
                 onSuccessListener(posts)
@@ -282,11 +36,103 @@ class PostRepositoryImpl : PostRepository() {
             }
     }
 
-    override fun updatePost(postId: String) {
-        TODO("Not yet implemented")
+    override fun getPostsByUserId(
+        userId: String,
+        onSuccessListener: (List<PostData>) -> Unit,
+        onFailureListener: (Exception) -> Unit
+    ) {
+        firestoreInstance.collection("posts")
+            .whereEqualTo("userId", userId)
+            .get()
+            .addOnFailureListener(onFailureListener)
+            .addOnSuccessListener { result ->
+                val posts = mutableListOf<PostData>()
+
+                for (document in result) {
+                    Log.d("postsFetch", "${document.id} => ${document.data}")
+                    val postData = PostData.fromFirebaseObject(document.id, document.data)
+                    posts.add(postData)
+                }
+                onSuccessListener(posts)
+            }
+            .addOnFailureListener { exception ->
+                onFailureListener(exception)
+                Log.w("postsFetch", "Error getting documents.", exception)
+
+            }
     }
 
-    override fun getCommentsForPost(postId: String) : MutableList<PostComment> = comments
+    override fun postPostComment(
+        postComment: PostComment,
+        onSuccessListener: () -> Unit,
+        onFailureListener: (Exception) -> Unit,
+    ) {
+        Log.v("postCommentPostComment", postComment.toString())
+        Log.v("POSTIDPOSTCOMMENT", postComment.postId)
+        Log.v("POSTIDPOSTCOMMENT", postComment.userId)
+        Log.v("POSTIDPOSTCOMMENT", postComment.comment)
+        Log.v("POSTIDPOSTCOMMENT", postComment.username)
+
+        firestoreInstance.collection("posts")
+            .document(postComment.postId)
+            .collection("comments")
+            .add(postComment)
+            .addOnFailureListener { exception ->
+                onFailureListener(exception)
+            }
+            .addOnSuccessListener { _ ->
+                onSuccessListener()
+            }
+    }
+
+    override fun postPost(
+        createData: CreateUiModel,
+        onSuccessListener: () -> Unit,
+        onFailureListener: (Exception) -> Unit
+    ) {
+        Log.v("POSTPOST", "DOSOJE")
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val currentUserUsername = currentUser!!.email!!.substringBefore("@")
+        val post = NewPostData(
+            currentUser.uid,
+            currentUser.email!!,
+            currentUserUsername,
+            createData.imageUrl,
+            createData.description
+        )
+        firestoreInstance.collection("posts")
+            .add(post)
+            .addOnFailureListener { exception ->
+                onFailureListener(exception)
+            }
+            .addOnSuccessListener { _ ->
+                onSuccessListener()
+            }
+    }
+
+    override fun getCommentsForPost(
+        postId: String,
+        onSuccessListener: (List<PostComment>) -> Unit,
+        onFailureListener: (Exception) -> Unit
+    ) {
+        firestoreInstance.collection("posts")
+            .document(postId)
+            .collection("comments")
+            .get()
+            .addOnFailureListener { exception ->
+                onFailureListener(exception)
+            }
+            .addOnSuccessListener { result ->
+                val comments = mutableListOf<PostComment>()
+
+                for (document in result) {
+                    Log.d("commentsFetch", "${document.id} => ${document.data}")
+                    val postComment = PostComment.fromFirebaseObject(document.id, document.data)
+                    comments.add(postComment)
+                }
+                onSuccessListener(comments)
+            }
+    }
 
 
 }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,31 +15,32 @@
             android:id="@+id/textview_post_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Some title" />
+            android:text="Some title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/textview_post_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:contentDescription="Post image" />
+            android:contentDescription="Post image"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview_post_username" />
 
         <TextView
             android:id="@+id/textview_post_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:text="Some description of the image" />
+            android:text="Some description of the image"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview_post_image" />
 
-        <Button
-            android:id="@+id/button_post_add_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="30dp"
-            android:text="Add Comment" />
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearlayout_post_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,42 +48,72 @@
             android:background="@color/cardview_dark_background"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="gone">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview_post_description">
 
             <EditText
                 android:id="@+id/edittext_post_create_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Write your comment"
-                android:lines="2" />
+                android:lines="2"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
+
+            <Button
+                android:id="@+id/button_post_add_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Add Comment"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"/>
 
             <Button
                 android:id="@+id/button_post_submit_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-                android:text="Submit" />
+                android:text="Submit"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/edittext_post_create_comment"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/button_post_cancel_comment"/>
 
             <Button
                 android:id="@+id/button_post_cancel_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancel" />
+                android:text="Cancel"
+                app:layout_constraintTop_toBottomOf="@id/edittext_post_create_comment"
+                app:layout_constraintRight_toLeftOf="@id/button_post_submit_comment"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:visibility="gone" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textview_post_comments"
             android:layout_width="match_parent"
             android:layout_height="15dp"
-            android:text="Comments:" />
+            android:layout_marginTop="15dp"
+            android:text="Comments:"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linearlayout_post_comment" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_post_comments"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="250dp"
             android:layout_marginTop="15dp"
-            android:background="@color/black" />
+            android:background="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview_post_comments" />
 
         <TextView
             android:id="@+id/textview_post_error"
@@ -88,8 +121,22 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="An error occurred while loading post."
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressbar_post"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

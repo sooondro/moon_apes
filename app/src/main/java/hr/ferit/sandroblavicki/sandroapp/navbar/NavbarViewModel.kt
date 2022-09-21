@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
+import com.google.firebase.auth.FirebaseAuth
 
 class NavbarViewModel () : ViewModel() {
 

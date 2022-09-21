@@ -8,10 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import hr.ferit.sandroblavicki.sandroapp.databinding.HomeFragmentBinding
+import hr.ferit.sandroblavicki.sandroapp.login.LoginErrorState
+import hr.ferit.sandroblavicki.sandroapp.login.LoginLoadingState
+import hr.ferit.sandroblavicki.sandroapp.login.LoginUserInputState
 import hr.ferit.sandroblavicki.sandroapp.repositories.PostRepositoryImpl
 
 
-class HomeFragment : Fragment(){
+class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
     private lateinit var viewModel: HomeViewModel
@@ -22,7 +25,7 @@ class HomeFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = HomeFragmentBinding.inflate(LayoutInflater.from(context),container,false)
+        binding = HomeFragmentBinding.inflate(LayoutInflater.from(context), container, false)
         viewModel = HomeViewModel(PostRepositoryImpl())
         return binding.root
     }
@@ -30,15 +33,26 @@ class HomeFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = HomePageRecyclerViewAdapter(requireContext(), listOf(),viewModel)
-        viewModel.fetchPosts()
+        adapter = HomePageRecyclerViewAdapter(requireContext(), listOf(), viewModel)
 
-        viewModel.navigationDelegate.observe(viewLifecycleOwner) { navDirections ->
-           findNavController().navigate(navDirections)
-        }
+        viewModel.apply {
+            fetchPosts()
 
-        viewModel.posts.observe(viewLifecycleOwner) { posts ->
-            adapter.setPosts(posts)
+            navigationDelegate.observe(viewLifecycleOwner) { navDirections ->
+                findNavController().navigate(navDirections)
+            }
+
+            posts.observe(viewLifecycleOwner) { posts ->
+                adapter.setPosts(posts)
+            }
+
+            screenState.observe(viewLifecycleOwner) { screenState ->
+                when (screenState) {
+                    is HomeErrorState -> displayErrorUi()
+                    is HomeLoadingState -> displayLoadingUi()
+                    is HomeUserInputState -> displayUserInputUi()
+                }
+            }
         }
 
         binding.apply {
@@ -47,7 +61,25 @@ class HomeFragment : Fragment(){
         }
     }
 
+    private fun displayUserInputUi() {
+        binding.apply {
+            progressbarHome.visibility = View.GONE
+            textviewHomeError.visibility = View.GONE
+        }
+    }
 
+    private fun displayLoadingUi() {
+        binding.apply {
+            progressbarHome.visibility = View.VISIBLE
+        }
+    }
+
+    private fun displayErrorUi() {
+        binding.apply {
+            progressbarHome.visibility = View.GONE
+            textviewHomeError.visibility = View.VISIBLE
+        }
+    }
 
 
 }

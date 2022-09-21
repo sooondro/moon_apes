@@ -1,13 +1,13 @@
 package hr.ferit.sandroblavicki.sandroapp.home
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import hr.ferit.sandroblavicki.sandroapp.databinding.HomePostBinding
+import hr.ferit.sandroblavicki.sandroapp.models.PostData
 
 class HomePageRecyclerViewAdapter (
     private val context: Context,

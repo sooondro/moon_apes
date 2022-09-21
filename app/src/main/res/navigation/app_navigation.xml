@@ -6,6 +6,19 @@
     app:startDestination="@id/splashFragment">
 
     <fragment
+        android:id="@+id/splashFragment"
+        android:name="hr.ferit.sandroblavicki.sandroapp.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/splash_fragment">
+        <action
+            android:id="@+id/navigateToLoginFragment"
+            app:destination="@+id/loginFragment" />
+        <action
+            android:id="@+id/navigateToHomeFragment"
+            app:destination="@+id/homeFragment" />
+    </fragment>
+
+    <fragment
         android:id="@+id/loginFragment"
         android:name="hr.ferit.sandroblavicki.sandroapp.login.LoginFragment"
         android:label="LoginFragment"
@@ -20,19 +33,6 @@
             app:destination="@+id/homeFragment"
             app:popUpToInclusive="true"
             />
-    </fragment>
-
-    <fragment
-        android:id="@+id/splashFragment"
-        android:name="hr.ferit.sandroblavicki.sandroapp.splash.SplashFragment"
-        android:label="SplashFragment"
-        tools:layout="@layout/splash">
-        <action
-            android:id="@+id/navigateToLoginFragment"
-            app:destination="@+id/loginFragment" />
-        <action
-            android:id="@+id/navigateToHomeFragment"
-            app:destination="@+id/homeFragment" />
     </fragment>
 
     <fragment
